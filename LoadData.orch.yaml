@@ -1,0 +1,69 @@
+type: "orchestration"
+version: "1.0"
+pipeline:
+  components:
+    Start:
+      type: "start"
+      transitions:
+        unconditional:
+        - "CSV Load"
+      parameters:
+        componentName: "Start"
+      postProcessing:
+        updateOutputMessage:
+        updateScalarVariables:
+        updateGridVariables:
+    CSV Load:
+      type: "csv-load"
+      parameters:
+        componentName: "CSV Load"
+        source:
+          type: "Snowflake Managed"
+          stage: "EMP_STAGE"
+          pattern: ".*"
+          stagedFilePath: "Employee.csv"
+        fileFormat: "[New File Format]"
+        csvFormat:
+          compression: "AUTO"
+          recordDelimiter: "\\n"
+          fieldDelimiter: ","
+          parseHeader: "No"
+          skipHeader: "0"
+          skipBlankLines: "No"
+          escape: "NONE"
+          escapeUnenclosedField: "\\\\"
+          trimSpace: "No"
+          fieldOptionallyEnclosed: "NONE"
+          nullIf:
+          errorOnColumnCountMismatch: "No"
+          emptyFieldAsNull: "Yes"
+          replaceInvalidCharacters: "No"
+          encodingType:
+        warehouse: "RETAIL_WH"
+        database: "RETAIL_DB"
+        schema: "PUBLIC"
+        targetTableName: "Employee"
+        loadStrategy: "Replace"
+        advancedCopyOptions:
+          onError: "Abort Statement"
+          sizeLimit:
+          purgeFiles: "No"
+          matchByColumnName: "None"
+          truncateColumns: "No"
+          forceLoad: "No"
+      postProcessing:
+        updateOutputMessage:
+        updateScalarVariables:
+        updateGridVariables:
+design:
+  components:
+    Start:
+      position:
+        x: -320
+        "y": -80
+      tempMetlId:
+    CSV Load:
+      position:
+        x: -160
+        "y": -80
+      tempMetlId:
