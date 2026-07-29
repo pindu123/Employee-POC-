@@ -8,4 +8,4 @@ assert df["EMP_ID"].is_unique
 
 assert df["SALARY"].isnull().sum() == 0
 
-print("Validation Passed"
+print("Validation Passed")
